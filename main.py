@@ -19,4 +19,4 @@ while continuar == True: #loop infinito
     if tecla == readchar.key.UP: #si se mantiene presionada la flecha arriba:
         continuar == False #la variable ligada al ciclo cambia a falso
         print ("Se presionó la tecla: ↑")
-        break #y se rompe el ciclo
+        break #y se rompe el ciclo.
