@@ -1,21 +1,11 @@
-jugador_nick = input('Ingresa tu nombre aquí: ') #Solicita el nombre del jugador
+'''
 
-print(f'¡Bienvenido, {jugador_nick}!') #Imprime mensaje de bienvenida + el nickname.
+Para esta sección del proyecto integrador necesitaremos aprender a manipular la terminal:
+
+Iniciar con un número en 0, leer la tecla `n` del teclado en un bucle, por cada presionada, borrar la terminal e imprimir el nuevo número hasta el número 50.
+
+La operación de borrar la terminal e imprimir el nuevo número debe estar en su propia función.
+
+Para borrar la terminal antes de imprimir nuevo contenido usar la instrucción: os.system('cls' if os.name=='nt' else 'clear'), para esto se debe importar la librería os
+
 '''
----------------------------------------------------------------------------------
-* Instalar la librería: https://pypi.org/project/readchar/
-* Investigrar cómo leer un caracter del teclado
-* Escribir un programa que corra un bucle infinito leyendo e imprimiento las teclas,
- y sólo terminará cuando se presione la tecla ↑ indicada como UP
----------------------------------------------------------------------------------
-'''
-import readchar
-from readchar import readkey, key
-while continuar == True: #loop infinito
-    tecla = readchar.readkey()
-    tecla != readchar.key.UP #si la tecla que se está presionando es diferente a la flecha arriba:
-    print("Se presionó la tecla: ", tecla) #imprime la tecla que se esté presionando mientras esta sea diferente a la flecha arriba
-    if tecla == readchar.key.UP: #si se mantiene presionada la flecha arriba:
-        continuar == False #la variable ligada al ciclo cambia a falso
-        print ("Se presionó la tecla: ↑")
-        break #y se rompe el ciclo.
