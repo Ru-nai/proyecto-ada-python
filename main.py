@@ -11,6 +11,12 @@ Para borrar la terminal antes de imprimir nuevo contenido usar la instrucción:
 os.system('cls' if os.name=='nt' else 'clear'), para esto se debe importar la librería os
 
 '''
-
+import readchar
+from readchar import readkey, key
 import os
-os.system('cls' if os.name == 'nt' else 'clear')
+
+for iter in range (0,51):
+    tecla_n = readchar.readkey()
+    if tecla_n == 'n':
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print (iter)
