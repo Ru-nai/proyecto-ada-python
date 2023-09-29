@@ -6,8 +6,6 @@ jugador_nick = input('Ingresa tu nombre aquí: ') #Solicita el nombre del jugado
 
 print(f'¡Bienvenido, {jugador_nick}!') #Imprime mensaje de bienvenida + el nickname..
 
-
-
 '''Leer un caracter suelto del teclado, imprimirlo siempre que no sea la tecla arriba y detenerse al presionar dicha tecla arriba'''
 
 continuar = True #variable para cambiar a Falso y detener el loop
@@ -31,3 +29,4 @@ def clear_cons(tecla_n):
 
 for iter in range(0,51):
     clear_cons(tecla_n=readchar.readkey())
+
