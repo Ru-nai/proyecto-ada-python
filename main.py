@@ -19,3 +19,5 @@ while continuar == True: #loop infinito
         print ("Se presionó la tecla: ↑")
         break #y se rompe el ciclo.
 
+
+
