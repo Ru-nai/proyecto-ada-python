@@ -89,3 +89,13 @@ def main_loop(mapa: List[List[str]], posicion_inicial: Tuple[int, int], posicion
             px, py = current_px, current_py  # mueve a 'P' a la nueva posicion válida luego de reemplazar su posicion anterior por '.'
 
 
+def ejecutar(): #configura / ejecuta las funciones anteriores para que sí se imprima algo
+    laberinto_seleccionado = selecciona_laberinto_azar #se le asigna el valor de la variable 'selecciona_laberinto_azar' a la variable 'laberinto_seleccionado'. De esta manera, se le pasará uno de los tres laberintos definidos al inicio del código
+    tamano = obtener_tamano_laberinto(laberinto_seleccionado) #'tamano' almacena la tupla obtenida en la funcion 'obtener_tamano_laberinto' para luego 'tamano' para establecer la coordenada (end,end)
+    posicion_inicial = (0, 0) #posicion de 'P' se inicia en (0,0), lo que es en la esquina superior izquierda
+    posicion_final = (tamano[0] - 1, tamano[1] - 2) #se crea la variable 'posicion_final' y se calcula usando la tupla almacenada en 'tamano'. Intenté que (end,end) fuera visto en Y como una fila antes de la última fila, pero no funciona y no entiendo bien por qué esta es la convención para hacer laberintos
+    mapa = [list(fila) for fila in laberinto_seleccionado.strip().split('\n')] #la variable mapa almacena 'laberinto_seleccionado' convertido en una lista de caracteres
+
+    main_loop(mapa, posicion_inicial, posicion_final) #finalmente, se llama a la funcion "main_loop' y se le pasan como parámetros las variables que se definieron antes de llamar a dicha funcion dentro de 'ejecutar'
+
+ejecutar() #llama a la funcion 'ejecutrar' para que ejecute todo lo que tiene adentro
