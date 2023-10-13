@@ -83,7 +83,7 @@ def main_loop(mapa: List[List[str]], posicion_inicial: Tuple[int, int], posicion
             current_py += 1 #Si la flecha presionada fue la tecla derecha, incrementa current_py en 1
 
         if 0 <= current_px < len(mapa) and 0 <= current_py < len(mapa[0]) and mapa[current_px][current_py] != '#':
-            #este if verifica si 'current_px' y 'current_py' está dentro del tamaño del laberinto, comprobando si current_px y current_py se encuentran entre 0 y el número de columnas que haya en el laberinto
+            #este if verifica si 'current_px' y 'current_py' está dentro del tamaño del laberinto, comprobando si current_px y current_py se encuentran entre 0 y el número de columnas que haya en el laberinto. Tambien evalúa que la posicion no sea '#'
             #por alguna razon, este if no esta funcionando bien, deja que 'P' se salga de la matriz y da un error por consola
             mapa[px][py] = '.'  # si después de que el 'if' evalúe, la posición del 'P' cumple las condiciones, reemplaza 'P' por '.'
             px, py = current_px, current_py  # mueve a 'P' a la nueva posicion válida luego de reemplazar su posicion anterior por '.'
