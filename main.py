@@ -69,11 +69,10 @@ def main_loop(mapa: List[List[str]], posicion_inicial: Tuple[int, int], posicion
     while (px, py) != posicion_final: #inicia un bucle 'while' que se ejecute siempre y cuando px y py sean diferentes a la posicion_final
         mapa[px][py] = 'P' #asigna el caracter 'P' a las 'coordenadas' actuales de px y py dentro del mapa
         mostrar_laberinto(mapa) #llama a la función 'mostrar_laberinto'. Lo que muestra es el laberinto con la posicion actual de 'P'
-
-        tecla_presionada = readchar.readkey() #asigna la tecla presionada por el usuario a la variable 'tecla_presionada' usando readchar.readkey
         current_px, current_py = px, py #la posicion actual de 'P' en X y Y se basa en la posicion px, py señalada anteriormente, para determinar donde se encuentra 'P'
 
         tecla_presionada = readchar.readkey()#asigna la tecla presionada por el usuario a la variable 'tecla_presionada' usando readchar.readkey
+
         if tecla_presionada == readchar.key.UP:
             current_px -= 1 #Si la flecha presionada fue la tecla arriba, reduce current_px en 1
         elif tecla_presionada == readchar.key.DOWN:
