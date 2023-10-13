@@ -50,3 +50,9 @@ def obtener_tamano_laberinto(laberinto):
 def limpiar_consola():
     #Función para limpiar la pantalla/consola antes de imprimir / mostrar el laberinto usando la librería os.
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def mostrar_laberinto(mapa):
+    #Función para mostrar el laberinto en la consola luego de limpiarla. Recibe como parámetro 'mapa' que es una matriz que representa el laberinto
+    limpiar_consola() #llama a la función 'limpiar_consola' antes de imprimir
+    for fila in mapa: #bucle for que recorre cada fila (lista de listas) de la matriz 'mapa'
+        print(''.join(fila)) #cada fila de la matriz 'mapa' se convierte a una cadena, para que se impriman como str en lugar de listas y se vea más claro, y las va imprimiendo
