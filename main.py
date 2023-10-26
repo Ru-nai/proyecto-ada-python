@@ -96,3 +96,84 @@ def ejecutar():
     main_loop(mapa, posicion_inicial, posicion_final) #finalmente, se llama a la funcion "main_loop' y se le pasan como parámetros las variables que se definieron antes de llamar a dicha funcion dentro de 'ejecutar'
 
 ejecutar() #llama a la funcion 'ejecutrar' para que ejecute todo lo que tiene adentro'''
+
+class Juego:
+    def __init__(self, 
+                 mapa: List[List[str]], 
+                 posicion_inicial: Tuple[int, int], 
+                 posicion_final: Tuple[int, int]):
+        
+        self.mapa = mapa
+        self.posicion_inicial = posicion_inicial
+        self.posicion_final = posicion_final
+    
+    def __opciones_laberinto(self):
+        self.laberinto_1 = "..#####\n......#\n###.#.#\n#...#.#\n###.###\n#...#.#\n#.#.#.#\n#.#...#\n###.###\n#.....\n######"
+        self.laberinto_2 = "..###############\n..#.#.......#...#\n#.#.###.#.#.###.#\n#.......#.#.#.#.#\n#.#####.#.###.#.#\n#.....#.#.......\n################"
+        self.laberinto_3 = "..###########\n........#...#\n#######.#.###\n#...........\n############"
+
+        opciones_laberinto = [self.laberinto_1, self.laberinto_2, self.laberinto_3]
+        selecciona_laberinto_azar = random.choice(opciones_laberinto)
+        return selecciona_laberinto_azar
+
+    def __obtener_tamano_de_laberinto(self, laberinto):
+        filas = laberinto.strip().split('\n')
+        num_filas = len(filas)
+        num_columnas = max(len(fila) for fila in filas)
+        return num_filas, num_columnas
+    
+    def __limpiar_consola(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+    def __mostrar_laberinto(self, mapa):
+        self.__limpiar_consola()
+        for fila in mapa:
+            print(''.join(fila))
+
+    def __main_loop(self, 
+                    mapa: List[List[str]], 
+                    posicion_inicial: Tuple[int, int], 
+                    posicion_final: Tuple[int, int]):
+        
+        self.px, self.py = posicion_inicial
+
+        while (self.px, self.py) != posicion_final:
+
+            mapa[self.px][self.py] = 'P'
+            self.__mostrar_laberinto(mapa)
+            current_px, current_py = self.px, self.py
+
+            tecla_presionada = readchar.readkey()
+
+            if tecla_presionada == readchar.key.UP:
+                current_px -= 1 #Si la flecha presionada fue la tecla arriba, reduce current_px en 1
+            elif tecla_presionada == readchar.key.DOWN:
+                current_px += 1 #Si la flecha presionada fue la tecla abajo, incrementa current_px en 1
+            elif tecla_presionada == readchar.key.LEFT:
+                current_py -= 1 #Si la flecha presionada fue la tecla izquierda, reduce current_py en 1
+            elif tecla_presionada == readchar.key.RIGHT:
+                current_py += 1 #Si la flecha presionada fue la tecla derecha, incrementa current_py en 1
+
+            if 0 <= current_px < len(mapa) and 0 <= current_py < len(mapa[0]) and mapa[current_px][current_py] != '#':
+                #este if verifica si 'current_px' y 'current_py' está dentro del tamaño del laberinto, comprobando si current_px y current_py se encuentran entre 0 y el número de columnas que haya en el laberinto. Tambien evalúa que la posicion no sea '#'
+                #por alguna razon, este if no esta funcionando bien, deja que 'P' se salga de la matriz y da un error por consola
+                mapa[self.px][self.py] = '.'
+                self.px, self.py = current_px, current_py
+    
+    def ejecutar(self):
+        self.laberinto_seleccionado = self.__opciones_laberinto()
+        self.tamano = self.__obtener_tamano_de_laberinto(self.laberinto_seleccionado) 
+        self.posicion_inicial = (0, 0) 
+        self.posicion_final = (self.tamano[0] - 1, self.tamano[1] - 1) 
+        self.mapa = [list(fila) for fila in self.laberinto_seleccionado.strip().split('\n')] 
+
+        self.__main_loop(self.mapa, self.posicion_inicial, self.posicion_final) 
+
+
+
+def main():
+    juego = Juego([], (0, 0), (0, 0))
+    juego.ejecutar()
+
+if __name__ == '__main__':
+    main()
