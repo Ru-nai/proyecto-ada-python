@@ -140,8 +140,8 @@ class Juego:
                 self.mapa[px][py] = '.'
                 px, py = current_px, current_py
 
-            self.mapa[px][py] = 'P'  # Muestra 'P' en la última posición visitada
-            self.__mostrar_laberinto()  # Muestra el laberinto después de actualizar
+            self.mapa[px][py] = 'P'  
+            self.__mostrar_laberinto() 
 
             if (px, py) == self.posicion_final:
                 break
@@ -172,7 +172,6 @@ class JuegoArchivo(Juego):
         coordenadas = [int(coor) for coor in lines[0].split()]
         posicion_inicial = tuple(coordenadas[:2])
 
-        # Establecer la posición final en la última fila, penúltima columna
         num_filas = len(mapa)
         num_columnas = len(mapa[0])
         posicion_final = (num_filas - 1, num_columnas - 2)
