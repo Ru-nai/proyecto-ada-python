@@ -97,110 +97,91 @@ def ejecutar():
 
 ejecutar() #llama a la funcion 'ejecutrar' para que ejecute todo lo que tiene adentro'''
 
+import readchar
+from readchar import readkey, key
+import os
+import random
+from typing import List, Tuple
+
+
 class Juego:
-    def __init__(self, 
-                 mapa: List[List[str]], 
-                 posicion_inicial: Tuple[int, int], 
-                 posicion_final: Tuple[int, int]):
-        
+    def __init__(self, mapa: List[List[str]], posicion_inicial: Tuple[int, int], posicion_final: Tuple[int, int]):
         self.mapa = mapa
         self.posicion_inicial = posicion_inicial
         self.posicion_final = posicion_final
-    
-    def __opciones_laberinto(self):
-        self.laberinto_1 = "..#####\n......#\n###.#.#\n#...#.#\n###.###\n#...#.#\n#.#.#.#\n#.#...#\n###.###\n#.....\n######"
-        self.laberinto_2 = "..###############\n..#.#.......#...#\n#.#.###.#.#.###.#\n#.......#.#.#.#.#\n#.#####.#.###.#.#\n#.....#.#.......\n################"
-        self.laberinto_3 = "..###########\n........#...#\n#######.#.###\n#...........\n############"
 
-        opciones_laberinto = [self.laberinto_1, self.laberinto_2, self.laberinto_3]
-        selecciona_laberinto_azar = random.choice(opciones_laberinto)
-        return selecciona_laberinto_azar
-
-    def __obtener_tamano_de_laberinto(self, laberinto):
-        filas = laberinto.strip().split('\n')
-        num_filas = len(filas)
-        num_columnas = max(len(fila) for fila in filas)
-        return num_filas, num_columnas
-    
     def __limpiar_consola(self):
         os.system('cls' if os.name == 'nt' else 'clear')
 
-    def __mostrar_laberinto(self, mapa):
+    def __mostrar_laberinto(self):
         self.__limpiar_consola()
-        for fila in mapa:
+        for fila in self.mapa:
             print(''.join(fila))
 
-    def __main_loop(self, 
-                    mapa: List[List[str]], 
-                    posicion_inicial: Tuple[int, int], 
-                    posicion_final: Tuple[int, int]):
-        
-        self.px, self.py = posicion_inicial
+    def __main_loop(self):
+        px, py = self.posicion_inicial
 
-        while (self.px, self.py) != posicion_final:
+        while (px, py) != self.posicion_final:
 
-            mapa[self.px][self.py] = 'P'
-            self.__mostrar_laberinto(mapa)
-            current_px, current_py = self.px, self.py
+            current_px, current_py = px, py
 
             tecla_presionada = readchar.readkey()
 
             if tecla_presionada == readchar.key.UP:
-                current_px -= 1 #Si la flecha presionada fue la tecla arriba, reduce current_px en 1
+                current_px -= 1
             elif tecla_presionada == readchar.key.DOWN:
-                current_px += 1 #Si la flecha presionada fue la tecla abajo, incrementa current_px en 1
+                current_px += 1
             elif tecla_presionada == readchar.key.LEFT:
-                current_py -= 1 #Si la flecha presionada fue la tecla izquierda, reduce current_py en 1
+                current_py -= 1
             elif tecla_presionada == readchar.key.RIGHT:
-                current_py += 1 #Si la flecha presionada fue la tecla derecha, incrementa current_py en 1
+                current_py += 1
 
-            if 0 <= current_px < len(mapa) and 0 <= current_py < len(mapa[0]) and mapa[current_px][current_py] != '#':
-                #este if verifica si 'current_px' y 'current_py' está dentro del tamaño del laberinto, comprobando si current_px y current_py se encuentran entre 0 y el número de columnas que haya en el laberinto. Tambien evalúa que la posicion no sea '#'
-                #por alguna razon, este if no esta funcionando bien, deja que 'P' se salga de la matriz y da un error por consola
-                mapa[self.px][self.py] = '.'
-                self.px, self.py = current_px, current_py
-    
+            if 0 <= current_px < len(self.mapa) and 0 <= current_py < len(self.mapa[0]) and self.mapa[current_px][current_py] != '#':
+                self.mapa[px][py] = '.'
+                px, py = current_px, current_py
+
+            self.mapa[px][py] = 'P'  # Muestra 'P' en la última posición visitada
+            self.__mostrar_laberinto()  # Muestra el laberinto después de actualizar
+
+            if (px, py) == self.posicion_final:
+                break
+
     def ejecutar(self):
-        self.laberinto_seleccionado = self.__opciones_laberinto()
-        self.tamano = self.__obtener_tamano_de_laberinto(self.laberinto_seleccionado) 
-        self.posicion_inicial = (0, 0) 
-        self.posicion_final = (self.tamano[0] - 1, self.tamano[1] - 1) 
-        self.mapa = [list(fila) for fila in self.laberinto_seleccionado.strip().split('\n')] 
-
-        self.__main_loop(self.mapa, self.posicion_inicial, self.posicion_final) 
+        self.__main_loop()
 
 
-class JuegoArchivo (Juego):
+class JuegoArchivo(Juego):
     def __init__(self, path_a_mapas):
+        super().__init__([], (0, 0), (0, 0))
         self.path_a_mapas = path_a_mapas
-        super().__init__(self.__obtener_mapa())
+        self.mapa, self.posicion_inicial, self.posicion_final = self.__leer_mapa()
+        self.ejecutar()
 
-    def __obtener_mapa(self):
-        archivos_de_mapas = os.listdir(self.path_a_mapas)
-        nombre_archivo = random.choice(archivos_de_mapas)
+    def __leer_mapa(self):
+        archivos = os.listdir(self.path_a_mapas)
+        nombre_archivo = random.choice(archivos)
         path_completo = os.path.join(self.path_a_mapas, nombre_archivo)
-        
-        with open(path_completo, 'r') as archivo_mapa:
-            mapa = archivo_mapa.read()
-        
-        return self.__procesar_mapa(mapa)
-    
-    def __procesar_mapa(self, mapa):
-        # Procesar el mapa para obtener las coordenadas de inicio y fin.
-        lineas = mapa.strip().split('\n')
-        tamano = lineas[0].split(',')
-        mapa = '\n'.join(lineas[1:])  # Eliminar la primera línea que contiene dimensiones y coordenadas
-        return mapa, (int(tamano[0]), int(tamano[1])), (int(tamano[2]), int(tamano[3]))
 
+        with open(path_completo, 'r') as archivo:
+            lines = archivo.readlines()
 
-'''-------------------------------------------------------------------------------------'''
+        mapa = []
+        for line in lines[1:]:
+            mapa.append(list(line.strip()))
+
+        coordenadas = [int(coor) for coor in lines[0].split()]
+        posicion_inicial = tuple(coordenadas[:2])
+
+        # Establecer la posición final en la última fila, penúltima columna
+        num_filas = len(mapa)
+        num_columnas = len(mapa[0])
+        posicion_final = (num_filas - 1, num_columnas - 2)
+
+        return mapa, posicion_inicial, posicion_final
 
 def main():
-    path_a_mapas = "tu_ruta_a_los_mapas"  # Reemplaza con la ruta a tu carpeta de mapas
-    juego = JuegoArchivo(r'C:\Users\Papas con queso\Downloads\mapas_proyecto_integrador')
-
-    juego.ejecutar()
-
+    path_a_mapas = r'C:\Users\Papas con queso\Downloads\LAURA\mapas_proyecto_integrador'
+    juego_archivo = JuegoArchivo(path_a_mapas)
 
 if __name__ == '__main__':
     main()
