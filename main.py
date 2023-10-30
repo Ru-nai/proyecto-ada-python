@@ -170,10 +170,37 @@ class Juego:
         self.__main_loop(self.mapa, self.posicion_inicial, self.posicion_final) 
 
 
+class JuegoArchivo (Juego):
+    def __init__(self, path_a_mapas):
+        self.path_a_mapas = path_a_mapas
+        super().__init__(self.__obtener_mapa())
+
+    def __obtener_mapa(self):
+        archivos_de_mapas = os.listdir(self.path_a_mapas)
+        nombre_archivo = random.choice(archivos_de_mapas)
+        path_completo = os.path.join(self.path_a_mapas, nombre_archivo)
+        
+        with open(path_completo, 'r') as archivo_mapa:
+            mapa = archivo_mapa.read()
+        
+        return self.__procesar_mapa(mapa)
+    
+    def __procesar_mapa(self, mapa):
+        # Procesar el mapa para obtener las coordenadas de inicio y fin.
+        lineas = mapa.strip().split('\n')
+        tamano = lineas[0].split(',')
+        mapa = '\n'.join(lineas[1:])  # Eliminar la primera línea que contiene dimensiones y coordenadas
+        return mapa, (int(tamano[0]), int(tamano[1])), (int(tamano[2]), int(tamano[3]))
+
+
+'''-------------------------------------------------------------------------------------'''
 
 def main():
-    juego = Juego([], (0, 0), (0, 0))
+    path_a_mapas = "tu_ruta_a_los_mapas"  # Reemplaza con la ruta a tu carpeta de mapas
+    juego = JuegoArchivo(r'C:\Users\Papas con queso\Downloads\mapas_proyecto_integrador')
+
     juego.ejecutar()
+
 
 if __name__ == '__main__':
     main()
