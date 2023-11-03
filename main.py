@@ -79,10 +79,12 @@ class JuegoArchivo(Juego):
         with open(path_completo, 'r') as archivo:
             lines = archivo.readlines()
 
-        mapa = []
-        for line in lines[1:]:
-            mapa.append(list(line.strip()))
-
+        #Reescribir la función que convierte el laberinto de cadena a matriz, para que en vez de usar un bucle, haga uso de la función map
+        #'map interior' está usando strip para quitar espacios blancos al inicio y al final de la cadena que es el laberinto desde la segunda fila ya que los mapas dados tienen unos números en la primera fila
+        #'map exterior' está tomando el mapa ya sin espacios al inicio y al final, e itera sobre cada fila en el mapa, y con 'list (interior)' está haciendo una lista de listas con el contenido de cada fila del mapa
+        #'list exterior' está transformando todo lo obtenido de los dos maps y el list interior, en una lista de listas
+        mapa = list(map(list, map(str.strip, lines[1:])))
+        
         coordenadas = [int(coor) for coor in lines[0].split()]
         posicion_inicial = tuple(coordenadas[:2])
 
