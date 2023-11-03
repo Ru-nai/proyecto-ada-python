@@ -5,18 +5,15 @@ import random
 from typing import List, Tuple
 import functools
 from functools import reduce
+
 '''
+PROYECTO INTEGRADOR PARTE 1:
+'''
+jugador_nick = input('Ingresa tu nombre aquí: ')
+print(f'¡Bienvenido, {jugador_nick}!')
 
-Proyecto integrador parte 6
-
-1. Reescribir la función que convierte el laberinto de cadena a matriz,
-para que en vez de usar un bucle, haga uso de la función map
-
-2. Reescribir la función que lee el mapa usando la función 'readlines()'
-para leerlo todo en una sola operación. 
-Cargar las coordenadas y usar 'reduce()' para concatenar las filas leídas en una sola cadena, 
-en otras palabras, sustituir el bucle de lectura del mapa en forma de candena para usar la función reduce.
-
+'''
+PROYECTO INTEGRADOR PARTE 6: MAP, REDUCE, READLINES
 '''
 
 class Juego:
@@ -55,8 +52,8 @@ class Juego:
                 self.mapa[px][py] = '.'
                 px, py = current_px, current_py
 
-            self.mapa[px][py] = 'P'  # Muestra 'P' en la última posición visitada
-            self.__mostrar_laberinto()  # Muestra el laberinto después de actualizar
+            self.mapa[px][py] = 'P'
+            self.__mostrar_laberinto()
 
             if (px, py) == self.posicion_final:
                 break
@@ -80,13 +77,10 @@ class JuegoArchivo(Juego):
         with open(path_completo, 'r') as archivo:
             lines = archivo.readlines()
         
-        #concatena en una sola cadena de texto todas las líneas del mapa desde la segunda fila -evitando las coordenadas de la línea 1-, sin saltos de línea, pero con espacios entre fila y fila
+        #uso de función reduce
         mapa_str = reduce(lambda x, y: x + y, lines[1:])
 
-        #'map interior' está usando strip para quitar espacios blancos al inicio y al final de la cadena
-        #'splitlines' está dividiendo la cadena de caracteres dada por 'reduce' en líneas solas, separadas por comas siendo ahora la fila 2 del mapa el índice 0, fila 3 índice 1, etc 
-        #'map exterior' está tomando el mapa ya sin espacios al inicio y al final, e itera sobre cada elemento separado por comas que dio 'readliens', y con 'list (interior)' está haciendo una lista de listas con el contenido de cada cadena dada por readlines
-        #'list exterior' está transformando todo lo obtenido en una lista para que no hayan errores al obtener un objeto 'map'
+        #uso de función map y función splitlines
         mapa = list(map(list, map(str.strip, mapa_str.splitlines())))    
             
         coordenadas = [int(coordenada) for coordenada in lines[0].split()]
