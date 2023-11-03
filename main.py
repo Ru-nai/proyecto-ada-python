@@ -4,11 +4,20 @@ import os
 import random
 from typing import List, Tuple
 
-'''Proyecto Integrador Parte 1:'''
-jugador_nick = input('Ingresa tu nombre aquí: ') 
-print(f'¡Bienvenido, {jugador_nick}!') 
+'''
 
-'''Proyecto Integrador Parte 5:'''
+Proyecto integrador parte 6
+
+1. Reescribir la función que convierte el laberinto de cadena a matriz,
+para que en vez de usar un bucle, haga uso de la función map
+
+2. Reescribir la función que lee el mapa usando la función 'readlines()'
+para leerlo todo en una sola operación. 
+Cargar las coordenadas y usar 'reduce()' para concatenar las filas leídas en una sola cadena, 
+en otras palabras, sustituir el bucle de lectura del mapa en forma de candena para usar la función reduce.
+
+'''
+
 class Juego:
     def __init__(self, mapa: List[List[str]], posicion_inicial: Tuple[int, int], posicion_final: Tuple[int, int]):
         self.mapa = mapa
