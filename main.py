@@ -100,7 +100,7 @@ class JuegoArchivo(Juego):
         return mapa, posicion_inicial, posicion_final
 
 def main():
-    path_a_mapas = r'd:\proyecto_integrador_ADA_2\mapas_proyecto_integrador'
+    path_a_mapas = r'd:\proyecto-ada-python\mapas_proyecto_integrador'
     juego_archivo = JuegoArchivo(path_a_mapas)
 
 if __name__ == '__main__':
