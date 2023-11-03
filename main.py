@@ -3,7 +3,8 @@ from readchar import readkey, key
 import os
 import random
 from typing import List, Tuple
-
+import functools
+from functools import reduce
 '''
 
 Proyecto integrador parte 6
@@ -78,14 +79,17 @@ class JuegoArchivo(Juego):
 
         with open(path_completo, 'r') as archivo:
             lines = archivo.readlines()
-
-        #Reescribir la función que convierte el laberinto de cadena a matriz, para que en vez de usar un bucle, haga uso de la función map
-        #'map interior' está usando strip para quitar espacios blancos al inicio y al final de la cadena que es el laberinto desde la segunda fila ya que los mapas dados tienen unos números en la primera fila
-        #'map exterior' está tomando el mapa ya sin espacios al inicio y al final, e itera sobre cada fila en el mapa, y con 'list (interior)' está haciendo una lista de listas con el contenido de cada fila del mapa
-        #'list exterior' está transformando todo lo obtenido de los dos maps y el list interior, en una lista de listas
-        mapa = list(map(list, map(str.strip, lines[1:])))
         
-        coordenadas = [int(coor) for coor in lines[0].split()]
+        #concatena en una sola cadena de texto todas las líneas del mapa desde la segunda fila -evitando las coordenadas de la línea 1-, sin saltos de línea, pero con espacios entre fila y fila
+        mapa_str = reduce(lambda x, y: x + y, lines[1:])
+
+        #'map interior' está usando strip para quitar espacios blancos al inicio y al final de la cadena
+        #'splitlines' está dividiendo la cadena de caracteres dada por 'reduce' en líneas solas, separadas por comas siendo ahora la fila 2 del mapa el índice 0, fila 3 índice 1, etc 
+        #'map exterior' está tomando el mapa ya sin espacios al inicio y al final, e itera sobre cada elemento separado por comas que dio 'readliens', y con 'list (interior)' está haciendo una lista de listas con el contenido de cada cadena dada por readlines
+        #'list exterior' está transformando todo lo obtenido en una lista para que no hayan errores al obtener un objeto 'map'
+        mapa = list(map(list, map(str.strip, mapa_str.splitlines())))    
+            
+        coordenadas = [int(coordenada) for coordenada in lines[0].split()]
         posicion_inicial = tuple(coordenadas[:2])
 
         # Establecer la posición final en la última fila, penúltima columna
